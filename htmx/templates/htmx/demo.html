@@ -3,6 +3,9 @@
 
 {% block content %}
 
+This demo is styled using 
+<a class="underline" href="https://tailwindcss.com/">Tailwind CSS</a>
+
 <div class="container">
   <h1 class="py-2 font-semibold text-xl">Compute with button</h1>
   <div class="px-4">
@@ -39,7 +42,7 @@
       class="block mt-2 border border-black bg-gray-50 rounded"></input>
 
     <label class="block mt-2 font-medium">Choose a function:</label>
-    <select name="function1" id="function1" hx-post="{% url 'htmx:answer1' %}" hx-target="#answer1"
+    <select name="function1" id="function1" hx-post="{% url 'htmx:answer1' %}" hx-target="#answer1" 
       hx-include="#value1, #function1" class="block mt-2 border border-black">
       <option value="square">square</option>
       <option value="cube">cube</option>

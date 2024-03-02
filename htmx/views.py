@@ -15,6 +15,10 @@ def randomimg():
 def demo(request):
     return render(request,'htmx/demo.html', randomimg())
 
+@require_GET
+def demo_bootstrap(request):
+    return render(request,'htmx/demo_bootstrap.html', {})
+
 
 # POST request example
 @require_POST
@@ -45,4 +49,17 @@ def answer1(request):
 @require_GET
 def oneimage(request):
     return render(request, 'htmx/partials/image.html', randomimg())
+
+@require_GET
+def example1(request):
+    return render(request, 'htmx/example1.html', {})
+
+@require_GET
+def example2(request):
+    return render(request, 'htmx/example2.html', {})
+
+@require_GET
+def example3(request):
+    return render(request, 'htmx/example3.html', randomimg())
+
 
