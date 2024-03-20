@@ -25,7 +25,7 @@ class Notification(models.Model):
 class Task(models.Model):
     description = models.TextField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    assignee = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL)
+    assignee = models.ForeignKey(Member, null=True, on_delete=models.DO_NOTHING)
     # 0 = not started, 1 = in progress, 2 = completed 
     status = models.IntegerField(default=0) # Better to use IntegerChoicesField here
     # Other attributes such as task deadline etc

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_POST
 import random
+from tasks.models import Project, Task
 
 # Read the URLs for NASA images
 imageurls = open("static/nasa_imageurls").readlines()
@@ -62,4 +63,35 @@ def example2(request):
 def example3(request):
     return render(request, 'htmx/example3.html', randomimg())
 
+@require_GET
+def example4(request):
+    return render(request, 'htmx/example4.html', {
+        'projects': Project.objects.all()
+    })
+
+@require_POST
+def tasks4project(request):
+    try:
+        id = int(request.POST['id'])
+        tasks = Task.objects.filter(project__id=id)
+        return render(request, "htmx/partials/tasks.html", {
+            'tasks': tasks            
+        })
+    except:
+        return render(request, "htmx/partials/tasks.html", {
+            'tasks': []             
+        })
+    
+@require_GET
+def member4task(request, id):
+    try:
+        # name = int(request.POST['name'])
+        task = Task.objects.get(id=id)
+        return render(request, "htmx/partials/member.html", {
+            'member': task.assignee          
+        })
+    except:
+        return render(request, "htmx/partials/member.html", {
+            'member': []             
+        })
 
