@@ -10,11 +10,7 @@ def compute(request, value):
     try:
         input = int(value)
         precomputed = Computed.objects.filter(input=input)
-        if precomputed.count() != 0:  
-            # This was already computed, so look up answer
-            answer = precomputed[0].output
-            time_computed = precomputed[0].time_computed
-        else:
+        if precomputed.count() == 0:  # The answer for this input has not been computed
             # Compute the answer
             answer = input * input
             time_computed = timezone.now()
@@ -25,16 +21,20 @@ def compute(request, value):
                 time_computed=time_computed
             )
             computed.save() # Store it into the database
+        else: 
+            computed = precomputed[0] 
+        
+        return render (
+            request,
+            "basic/compute.html",
+            {
+                'input': input,
+                'output': computed.output,
+                'time_computed': computed.time_computed.strftime("%m-%d-%Y %H:%M:%S UTC")
+            }
+        )
     except:
         raise Http404(f"Invalid input: {value}")
 
-    return render (
-        request,
-        "basic/compute.html",
-        {
-            'input': input,
-            'output': answer,
-            'time_computed': time_computed
 
-        }
-    )
+    
