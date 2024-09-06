@@ -95,3 +95,25 @@ def member4task(request, id):
             'member': []             
         })
 
+
+@require_GET
+def jsdemo(request):
+    return render(request, "htmx/jsdemo.html", {})
+
+
+@require_POST
+def jsresponse(request):
+    times = request.POST['times']
+    responses = times.split(" ")
+    previous = int(responses[0])
+    responses.pop(0)
+    answer = "Server received: "
+    for response in responses:
+        values = response.split(':')
+        button = values[0]
+        latency = (int(values[1]) - previous)/1000
+        previous = int(values[1])
+        answer = f"{answer} Button {button} after a latency of {latency} seconds. "
+    return render(request, "htmx/partials/times.html",{
+        'answer': answer
+    }) 

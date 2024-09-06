@@ -24,4 +24,7 @@ urlpatterns = [
     path('member4task/<int:id>', views.member4task, name='member4task' ),
     path('tasks4project/', views.tasks4project, name='tasks4project' ),
 
+    path("jsdemo", views.jsdemo, name="jsdemo"),
+    path("response", views.jsresponse, name="response")
+
 ]
