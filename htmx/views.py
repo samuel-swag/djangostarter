@@ -1,7 +1,8 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_POST
 import random
-from tasks.models import Project, Task
+from tasks.models import Notification, Project, Task, Member
 
 # Read the URLs for NASA images
 imageurls = open("static/nasa_imageurls").readlines()
@@ -11,6 +12,45 @@ def randomimg():
             'image': random.choice(imageurls).strip()
     }
 
+
+def assignment(request):
+    if request.method == 'GET':
+        return render(request, "htmx/assignment.html", {})
+    else:
+        memberID = request.POST['memberID']
+        search_type = request.POST['dropdown']
+
+        if search_type == 'tasks':
+            valid = False
+            has_tasks = False
+            member = Member.objects.filter(username__iexact=memberID).first()
+            tasks = Task.objects.filter(assignee__username__iexact=memberID) if member else []
+            if member:
+                valid = True
+            if tasks != []:
+                has_tasks = True
+            return render(request, "htmx/partials/assignment_tasks.html", {
+                'valid': valid,
+                'has_tasks': has_tasks,
+                'tasks': tasks,
+                'member': memberID
+            })
+        else:
+            valid = False
+            has_notifs = False
+            member = Member.objects.filter(username__iexact=memberID).first()
+            if member:
+                valid = True
+            notifications = Notification.objects.filter(users__username__iexact=memberID) if member else []
+            if notifications != []:
+                has_notifs = True
+            return render(request, "htmx/partials/assignment_notifications.html", {
+                'valid': valid,
+                'has_notifs': has_notifs,
+                'notifications': notifications,
+                'member': memberID
+            })
+        #return HttpResponse(f"The number is {'even' if memberID % 2 == 0 else 'odd'}")
 
 @require_GET
 def demo(request):

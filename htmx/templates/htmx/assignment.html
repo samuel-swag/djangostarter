@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js" integrity="sha384-ZBXiYtYQ6hJ2Y0ZNoYuI+Nq5MqWBr+chMrS/RkXpNzQCApHEhOt2aY8EJgqwHLkJ" crossorigin="anonymous"></script>
+    </head>
+
+    <body hx-headers='{"X-CSRFToken": "{{ csrf_token}}"}'>
+        <h1>
+            Tasks/Notifications Search
+        </h1>
+
+        Member ID:
+        <input type="text" id="memberID" name="memberID" maxlength="20"></input>
+        <br>        Type:
+        <select id="dropdown" name="dropdown">
+            <option value="tasks">Tasks</option>
+            <option value="notifications">Notifications</option>
+        </select>
+
+        <br>
+        
+        <button
+        hx-trigger='click'
+        hx-post="{% url 'htmx:assignment' %}"
+        hx-target="#answer"
+        hx-include="#memberID, #dropdown"
+        hx-swap="innerHTML"
+        >
+        Submit
+        </button>
+        <br><br>
+
+        <div id="answer">
+            <!-- Results will appear here -->
+        </div>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+<html>
+
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js" integrity="sha384-ZBXiYtYQ6hJ2Y0ZNoYuI+Nq5MqWBr+chMrS/RkXpNzQCApHEhOt2aY8EJgqwHLkJ" crossorigin="anonymous"></script>
+    </head>
+
+    <body hx-headers='{"X-CSRFToken": "{{ csrf_token}}"}'>
+
+        <h1>
+            Even-Odd Computation Page
+        </h1>
+        
+        Please input a number:
+        <input type="text" id="number" name="number" maxlength="20"></input>
+        <br>
+        
+        <button
+        hx-triggers='click'
+        hx-post="{% url 'basic:evenOdd' %}"
+        hx-target="#answer"
+        hx-include="#number"
+        >
+        Submit
+        </button>
+        <br><br>
+        <div id="answer"></div>
+    </body>
+</html>

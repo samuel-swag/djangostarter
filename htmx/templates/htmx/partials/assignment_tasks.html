@@ -1,0 +1,22 @@
+<div class="list-group">
+
+    {% if valid %}
+    
+        {% if has_tasks %}
+        Tasks for team member {{member}} are as follows
+        <ol>
+            {% for task in tasks %}
+            <li>
+                {{task.description}} in project {{task.project.name}}
+            </li>
+            {% endfor %}
+        </ol>
+        {% else %}
+        There are no tasks for team member {{member}}
+        {% endif %}
+    {% else %}
+        <p>
+            Team member with the name {{member}} does not exist
+        </p>
+    {% endif %}
+</div>

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from .models import Computed
 from django.utils import timezone
 
@@ -65,3 +65,26 @@ def isPrime(request, value):
         )
     except:
         raise Http404(f"Invalid input: {value}")
+
+
+
+def evenOdd(request):
+    if request.method == 'GET':
+        return render(request, "basic/evenodd.html", {})
+    else:
+        number = int(request.POST['number'])
+        return HttpResponse(f"The number is {'even' if number % 2 == 0 else 'odd'}")
+
+# def evenOdd(request, value):
+#     try:
+#         input = int(value)
+#         result = False
+#         if input % 2 == 0:
+#             result = True
+        
+#         return render(request, {
+#             'result': result,
+#             'value': value
+#         })
+#     except:
+#         raise Http404(f"Invalid input: {value}")

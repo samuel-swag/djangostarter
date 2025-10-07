@@ -1,0 +1,21 @@
+<div class="list-group">
+
+    {% if valid %}
+        {% if has_notifs %}
+        Notifications for team member {{member}} are as follows
+        <ol>
+            {% for ntf in notifications %}
+            <li>
+                {{ntf.message}}
+            </li>
+            {% endfor %}
+        </ol>
+        {% else %}
+        There are no notifications for team member {{member}}
+        {% endif %}
+    {% else %}
+    <p>
+        Team member with the name {{member}} does not exist
+    </p>
+    {% endif %}
+</div>
