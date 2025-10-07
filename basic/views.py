@@ -37,4 +37,31 @@ def compute(request, value):
         raise Http404(f"Invalid input: {value}")
 
 
-    
+def isPrime(request, value):
+    try:
+        input = int(value)
+        divisor = None
+        lessthantwo = False
+        if input < 2:
+            lessthantwo = True
+            is_prime = False
+        else:
+            is_prime = True
+            for i in range(2, int(input**0.5) + 1):
+                if input % i == 0:
+                    is_prime = False
+                    divisor = i
+                    break
+        
+        return render(
+            request,
+            "basic/isPrime.html",
+            {
+                'lessthantwo': lessthantwo,
+                'input': input,
+                'divisor': divisor,
+                'is_prime': is_prime
+            }
+        )
+    except:
+        raise Http404(f"Invalid input: {value}")

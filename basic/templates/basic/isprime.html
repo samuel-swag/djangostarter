@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <h1>Prime Home Page</h1>
+    {% if is_prime %}
+        <p>
+            {{ input }} is a prime number since it has no divisors
+        </p>
+    {% endif %}
+    {% if lessthantwo %}
+        <p>
+            {{ input }} is not a prime number since it is less than 2
+        </p>
+    {% endif %}
+    {% if divisor %}
+        <p>
+            {{ input }} is not a prime number since {{ divisor }} is a divisor
+        </p>
+    {% endif %}
+</html>

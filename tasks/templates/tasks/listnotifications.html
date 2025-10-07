@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <h1> Notifications Dashboard </h1>
+    </head>
+
+    <body>
+        {% if mbr %}
+
+        Notifications for {{member}} are as follows:
+
+        <ol>
+            {% for ntf in notifications %}
+            <li>
+                {{ntf.message}}
+            </li>
+            {% endfor %}
+        </ol>
+        {% else %}
+        A member with the name {{member}} does not exist.
+        {% endif %}
+    </body>
+</html>
