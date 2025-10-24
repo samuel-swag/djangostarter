@@ -7,7 +7,6 @@
         <h1>
             Tasks/Notifications Search
         </h1>
-
         Member ID:
         <input type="text" id="memberID" name="memberID" maxlength="20"></input>
         <br>        Type:
@@ -15,9 +14,7 @@
             <option value="tasks">Tasks</option>
             <option value="notifications">Notifications</option>
         </select>
-
         <br>
-        
         <button
         hx-trigger='click'
         hx-post="{% url 'htmx:assignment' %}"
@@ -27,8 +24,8 @@
         >
         Submit
         </button>
-        <br><br>
-
+        <br>
+        <br>
         <div id="answer">
             <!-- Results will appear here -->
         </div>

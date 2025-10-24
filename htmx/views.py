@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_POST
 import random
 from tasks.models import Notification, Project, Task, Member
+from htmx.models import Response
 
 # Read the URLs for NASA images
 imageurls = open("static/nasa_imageurls").readlines()
@@ -148,12 +149,38 @@ def jsresponse(request):
     previous = int(responses[0])
     responses.pop(0)
     answer = "Server received: "
+    buttons = []
+    latencies = []
+    prev = previous
+
     for response in responses:
         values = response.split(':')
         button = values[0]
-        latency = (int(values[1]) - previous)/1000
-        previous = int(values[1])
-        answer = f"{answer} Button {button} after a latency of {latency} seconds. "
+        timestamp = int(values[1])
+        latency = (timestamp - prev)/1000
+
+        buttons.append(button)
+        latencies.append(latency)
+        prev = timestamp
+        if len(buttons) == 1:
+            answer = f"{answer} Button {button} after a latency of {latency} seconds. "
+        else:
+            answer = f"{answer} Button {button} after an additional {latency} seconds. "
+
+    Response.objects.create(
+        # Record button responses
+        button1=buttons[0] if len(buttons) > 0 else '',
+        button2=buttons[1] if len(buttons) > 1 else '',
+        button3=buttons[2] if len(buttons) > 2 else '',
+        # Record latencies
+        latency1=latencies[0] if len(latencies) > 0 else '',
+        latency2=latencies[1] if len(latencies) > 1 else '',
+        latency3=latencies[2] if len(latencies) > 2 else '',
+
+    )
+
+    all_responses = Response.objects.all().order_by('-timestamp')[:10]
     return render(request, "htmx/partials/times.html",{
-        'answer': answer
+        'answer': answer,
+        'all_responses': all_responses
     }) 
